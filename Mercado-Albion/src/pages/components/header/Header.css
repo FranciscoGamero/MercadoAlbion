@@ -1,0 +1,107 @@
+.alturaHeader {
+    min-height: 100px;
+}
+
+/* Header personalizado */
+.custom-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+}
+
+/* Contenedor del menú */
+.menu-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+}
+
+/* Estilos para los items del menú */
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.25rem;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+/* Transiciones para iconos y texto */
+.menu-item .menu-icon,
+.menu-item .menu-icon i,
+.menu-item .menu-icon img,
+.menu-item .menu-label {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Color inicial para SVGs para que coincida con Bootstrap Icons */
+.menu-item .menu-icon img {
+    filter: brightness(0) saturate(100%) invert(47%) sepia(14%) saturate(545%) hue-rotate(169deg) brightness(94%) contrast(86%);
+}
+
+/* Estado hover para menu items */
+.menu-item:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-600) 100%);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+}
+
+/* Efectos para iconos en hover */
+.menu-item:hover .menu-icon,
+.menu-item:hover .menu-icon i {
+    color: white;
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* Efectos específicos para imágenes SVG */
+.menu-item:hover .menu-icon img {
+    filter: brightness(0) invert(1);
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* Efectos para texto en hover */
+.menu-item:hover .menu-label {
+    color: white;
+    font-weight: 600;
+}
+
+/* Estado activo/pressed */
+.menu-item:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+}
+
+.menu-item:active .menu-icon,
+.menu-item:active .menu-icon i,
+.menu-item:active .menu-icon img {
+    transform: scale(1.05);
+}
+
+/* Responsivo para dispositivos pequeños */
+@media (max-width: 768px) {
+    .menu-container {
+        gap: 0.25rem;
+    }
+    
+    .menu-item {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+    
+    .menu-label {
+        display: none;
+    }
+}
