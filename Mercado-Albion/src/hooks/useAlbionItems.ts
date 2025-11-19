@@ -1,12 +1,30 @@
 import { useState, useEffect } from 'react';
-import { CONFIG } from '../config/constants';
+import localItems from '../assets/locales/item.json';
 
-interface Item {
+// Definir el tipo explícito para los datos locales
+interface LocalItem {
+    UniqueName: string;
+    LocalizationDescriptionVariable: string;
+    LocalizedNames: {
+        [key: string]: string;
+    };
+    LocalizedDescriptions: {
+        [key: string]: string;
+    };
+}
+
+const typedLocalItems: LocalItem[] = localItems as LocalItem[];
+
+export interface Item {
     id: string;
-    title: string;
-    descriptionVariable?: string;
+    descriptionVariable?: string; // Permitir que sea opcional
     itemDescription?: string;
     tier?: string;
+    // Campos por idioma
+    titleES?: string;
+    titleEN?: string;
+    descriptionES?: string;
+    descriptionEN?: string;
 }
 
 export function useAlbionItems() {
@@ -14,98 +32,42 @@ export function useAlbionItems() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const cached = localStorage.getItem(CONFIG.CACHE_KEY);
-        if (cached) {
+        const fetchItems = async () => {
             try {
-                const { data, timestamp } = JSON.parse(cached);
-                if (Date.now() - timestamp < CONFIG.CACHE_TIME) {
-                    setItems(data);
-                    setLoading(false);
-                    return;
-                }
-            } catch (error) {
-                console.log('Error parsing cache:', error);
-            }
-        }
-
-        setLoading(true);
-
-        // Intentar múltiples URLs hasta encontrar una que funcione
-        const tryUrls = [
-            "https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.json",
-            "https://raw.githubusercontent.com/ao-data/ao-bin-dumps/main/formatted/items.json",
-            "https://raw.githubusercontent.com/ao-data/ao-bin-dumps/master/formatted/items.json"
-        ];
-
-        const fetchFromUrls = async (urls: string[]): Promise<any[]> => {
-            for (const url of urls) {
-                try {
-                    console.log(`Intentando cargar desde: ${url}`);
-                    const response = await fetch(url);
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (Array.isArray(data) && data.length > 0) {
-                            return data;
+                console.log('Iniciando carga de datos...');
+                const mappedItems = typedLocalItems
+                    .map(i => {
+                        if (!i.UniqueName || !i.LocalizedNames || !i.LocalizedDescriptions) {
+                            console.warn('Elemento inválido detectado:', i);
+                            return null;
                         }
-                    }
-                } catch (error) {
-                    console.log(`❌ Error con URL ${url}:`, error);
-                }
-            }
-            try {
-                console.log('📁 Intentando cargar archivo local como fallback...');
-                const response = await fetch('/items.json');
-                if (response.ok) {
-                    const data = await response.json();
-                    if (Array.isArray(data) && data.length > 0) {
-                        console.log('✅ Datos cargados desde archivo local');
-                        return data;
-                    }
-                }
-            } catch (error) {
-                console.log('❌ Error cargando archivo local:', error);
-            }
+                        
+                        // Extraer el tier del UniqueName si está presente
+                        const tierMatch = i.UniqueName.match(/T\d+/); // Busca patrones como "T4", "T5", etc.
+                        const tier = tierMatch ? tierMatch[0] : undefined;
 
-            throw new Error('No se pudieron cargar los datos desde ninguna fuente');
+                        return {
+                            id: i.UniqueName,
+                            descriptionVariable: i.LocalizationDescriptionVariable || '',
+                            titleES: i.LocalizedNames['ES-ES'] || '',
+                            titleEN: i.LocalizedNames['EN-US'] || '',
+                            descriptionES: i.LocalizedDescriptions['ES-ES'] || '',
+                            descriptionEN: i.LocalizedDescriptions['EN-US'] || '',
+                            tier: tier // Asignar el tier extraído
+                        } as Item; // Forzar el tipo a Item
+                    })
+                    .filter((item): item is Item => item !== null); // Asegurar que el tipo sea Item
+
+                console.log('Datos mapeados correctamente:', mappedItems);
+                setItems(mappedItems);
+            } catch (error) {
+                console.error('Error al cargar los datos:', error);
+            } finally {
+                setLoading(false);
+            }
         };
 
-        fetchFromUrls(tryUrls)
-            .then((raw: any[]) => {
-                const clean = raw
-                    .filter(i => i.LocalizedNames && i.UniqueName && !i.UniqueName.startsWith('@'))
-                    .map(i => {
-                        // Extraer tier del UniqueName (ej: T4_ORE -> T4)
-                        const tierMatch = i.UniqueName.match(/^T(\d+)_/);
-                        const tier = tierMatch ? `T${tierMatch[1]}` : undefined;
-
-                        const mapped = {
-                            id: i.UniqueName,
-                            title: i.LocalizedNames['ES-ES'] || i.LocalizedNames['EN-US'] || i.UniqueName,
-                            descriptionVariable: i.LocalizationDescriptionVariable,
-                            itemDescription: i.LocalizedDescriptions ?
-                                (i.LocalizedDescriptions['EN-US'] || i.LocalizedDescriptions['ES-ES']) : undefined,
-                            tier: tier
-                        };
-                        return mapped;
-                    });
-
-                // Guardar en caché
-                localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify({ data: clean, timestamp: Date.now() }));
-                setItems(clean);
-            })
-            .catch((error) => {
-                console.error('Error cargando items:', error);
-                // Cargar datos de respaldo si hay error
-                setItems([]);
-            })
-            .finally(() => setLoading(false));
-    }, []); // Solo cargar una vez
-
-    const getName = (id: string) => {
-        if (!id) return id;
-        const item = items.find(i => i.id === id);
-        return item?.title;
-    };
-
-    return { items, loading, getName };
+        fetchItems();
+    }, []);
+    return { items, loading };
 }

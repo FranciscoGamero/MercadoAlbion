@@ -3,7 +3,10 @@ import type { ReactElement } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { IconField } from 'primereact/iconfield';
+import { Dropdown } from 'primereact/dropdown';
 import './Header.css';
+import { ES as FlagES, US as FlagUS } from 'country-flag-icons/react/3x2';
+import { CONFIG } from '../../../config/constants';
 
 interface MenuItemType {
     label: string;
@@ -15,10 +18,59 @@ interface HeaderProps {
     onSearch?: (query: string) => void;
     onFilterByCategory?: (category: string) => void;
     activeCategory?: string | null;
+    onLanguageChange?: (lang: string) => void;
 }
 
-export function Header({ onSearch, onFilterByCategory, activeCategory }: HeaderProps = {}) {
+export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguageChange }: HeaderProps = {}) {
     const [searchQuery, setSearchQuery] = useState('');
+    const [language, setLanguage] = useState<string>(() => {
+        const existing = localStorage.getItem(CONFIG.LANG_KEY);
+        if (existing) {
+            // Normalizar valores tipo 'es'/'en' a 'ES-ES'/'EN-US'
+            const norm = existing.toLowerCase();
+            const normalized = norm === 'es' ? 'ES-ES' : norm === 'en' ? 'EN-US' : existing;
+            localStorage.setItem(CONFIG.LANG_KEY, normalized);
+            return normalized;
+        }
+        const nav = (navigator.language || '').toLowerCase();
+        const detected = nav.startsWith('es') ? 'ES-ES' : 'EN-US';
+        localStorage.setItem(CONFIG.LANG_KEY, detected);
+        return detected;
+    });
+
+    const languageOptions: Array<{ label: string; value: string; code: 'ES' | 'US' }> = [
+        { label: 'Español', value: 'ES-ES', code: 'ES' },
+        { label: 'English', value: 'EN-US', code: 'US' }
+    ];
+
+    const handleLanguageChange = (value: string) => {
+        setLanguage(value);
+        localStorage.setItem(CONFIG.LANG_KEY, value);
+        onLanguageChange?.(value);
+    };
+
+    const renderFlag = (code?: string) => {
+        if (code === 'ES') return <FlagES title="España" className="w-1rem h-1rem" />;
+        if (code === 'US') return <FlagUS title="United States" className="w-1rem h-1rem" />;
+        return null;
+    };
+
+    const itemTemplate = (option: { label: string; code: 'ES' | 'US' }) => (
+        <div className="flex align-items-center gap-2">
+            {renderFlag(option.code)}
+            <span>{option.label}</span>
+        </div>
+    );
+
+    const valueTemplate = (option?: { label: string; code: 'ES' | 'US' }) => {
+        if (!option) return null;
+        return (
+            <div className="flex align-items-center gap-2">
+                {renderFlag(option.code)}
+                <span>{option.label}</span>
+            </div>
+        );
+    };
 
     const menuItems: MenuItemType[] = [
         {
@@ -101,8 +153,18 @@ export function Header({ onSearch, onFilterByCategory, activeCategory }: HeaderP
                     })}
                 </div>
 
-                {/* Search */}
+                {/* Language + Search */}
                 <div className="flex align-items-center gap-2">
+                    <Dropdown
+                        value={language}
+                        options={languageOptions}
+                        optionLabel="label"
+                        itemTemplate={itemTemplate}
+                        valueTemplate={valueTemplate}
+                        onChange={(e) => handleLanguageChange(e.value)}
+                        placeholder="Idioma"
+                        className="w-12rem hidden sm:inline-flex"
+                    />
                     <IconField iconPosition="left" className="w-full sm:w-20rem">
                         <InputText 
                             value={searchQuery}
