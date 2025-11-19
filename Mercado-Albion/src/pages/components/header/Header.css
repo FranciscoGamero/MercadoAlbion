@@ -53,10 +53,10 @@
 
 /* Estado hover para menu items */
 .menu-item:hover {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-600) 100%);
+    background: linear-gradient(135deg, #A83D06 0%, #D2691E 100%);
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(168, 61, 6, 0.4);
 }
 
 /* Efectos para iconos en hover */
@@ -81,7 +81,7 @@
 /* Estado activo/pressed */
 .menu-item:active {
     transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+    box-shadow: 0 4px 15px rgba(168, 61, 6, 0.5);
 }
 
 .menu-item:active .menu-icon,
@@ -104,4 +104,21 @@
     .menu-label {
         display: none;
     }
+}
+
+/* Estado activo para categorías */
+.menu-item.active-category {
+    background: linear-gradient(135deg, #A83D06 0%, #D2691E 100%) !important;
+    color: white !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(168, 61, 6, 0.4) !important;
+}
+
+.menu-item.active-category .menu-icon,
+.menu-item.active-category .menu-label {
+    color: white !important;
+}
+
+.menu-item.active-category .menu-icon {
+    transform: scale(1.1) !important;
 }

@@ -14,9 +14,10 @@ interface MenuItemType {
 interface HeaderProps {
     onSearch?: (query: string) => void;
     onFilterByCategory?: (category: string) => void;
+    activeCategory?: string | null;
 }
 
-export function Header({ onSearch, onFilterByCategory }: HeaderProps = {}) {
+export function Header({ onSearch, onFilterByCategory, activeCategory }: HeaderProps = {}) {
     const [searchQuery, setSearchQuery] = useState('');
 
     const menuItems: MenuItemType[] = [
@@ -68,24 +69,36 @@ export function Header({ onSearch, onFilterByCategory }: HeaderProps = {}) {
                     />
                 </div>
 
-                {/* Menu Items */}
                 <div className="flex align-items-center gap-3 menu-container">
-                    {menuItems.map((item, index) => (
-                        <button 
-                            key={index}
-                            className="menu-item flex align-items-center gap-2 p-3 border-none bg-transparent cursor-pointer"
-                            onClick={item.onClick}
-                        >
-                            <span className="menu-icon">
-                                {typeof item.icon === 'string' ? (
-                                    <i className={item.icon}></i>
-                                ) : (
-                                    item.icon
-                                )}
-                            </span>
-                            <span className="menu-label">{item.label}</span>
-                        </button>
-                    ))}
+                    {menuItems.map((item, index) => {
+                        const categoryKey = ['weapons', 'armor', 'resources', 'food'][index];
+                        const isActive = activeCategory === categoryKey;
+                        
+                        return (
+                            <button 
+                                key={index}
+                                className={`menu-item flex align-items-center gap-2 p-3 border-none cursor-pointer ${
+                                    isActive ? 'active-category' : 'bg-transparent'
+                                }`}
+                                onClick={item.onClick}
+                                style={isActive ? {
+                                    background: 'linear-gradient(135deg, #A83D06 0%, #D2691E 100%)',
+                                    color: 'white',
+                                    transform: 'translateY(-2px)',
+                                    boxShadow: '0 6px 20px rgba(168, 61, 6, 0.4)'
+                                } : {}}
+                            >
+                                <span className="menu-icon">
+                                    {typeof item.icon === 'string' ? (
+                                        <i className={item.icon}></i>
+                                    ) : (
+                                        item.icon
+                                    )}
+                                </span>
+                                <span className="menu-label">{item.label}</span>
+                            </button>
+                        );
+                    })}
                 </div>
 
                 {/* Search */}

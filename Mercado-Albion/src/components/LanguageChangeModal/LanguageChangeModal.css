@@ -1,0 +1,215 @@
+/* Estilos para el modal de cambio de idioma */
+.language-change-modal {
+    z-index: 9999;
+}
+
+.language-change-content {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+/* Contenedor de iconos de idiomas con animación */
+.language-icon-container {
+    margin-bottom: 2rem;
+}
+
+.language-switch-animation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.from-language, .to-language {
+    width: 60px;
+    height: 40px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+.flag-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.arrow-animation {
+    font-size: 1.5rem;
+    color: #A83D06;
+    animation: slideRight 1.5s infinite ease-in-out;
+}
+
+/* Animaciones */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 15px rgba(168, 61, 6, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(168, 61, 6, 0.5);
+    }
+}
+
+@keyframes slideRight {
+    0%, 100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateX(10px);
+        opacity: 0.7;
+    }
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Título del modal */
+.language-change-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #A83D06;
+    margin-bottom: 1rem;
+    animation: fadeInScale 0.5s ease-out;
+}
+
+/* Descripción */
+.language-change-description {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    animation: fadeInScale 0.5s ease-out 0.2s both;
+}
+
+/* Contenedor del spinner */
+.spinner-container {
+    margin: 2rem 0;
+    animation: fadeInScale 0.5s ease-out 0.4s both;
+}
+
+/* Personalización del spinner de PrimeReact */
+.p-progress-spinner-circle {
+    stroke: #A83D06 !important;
+}
+
+/* Información de progreso */
+.progress-info {
+    margin-top: 2rem;
+    animation: fadeInScale 0.5s ease-out 0.6s both;
+}
+
+.language-transition-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(168, 61, 6, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(168, 61, 6, 0.2);
+}
+
+.from-lang, .to-lang {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #A83D06;
+}
+
+.from-lang .flag-icon, .to-lang .flag-icon {
+    width: 24px;
+    height: 16px;
+    border-radius: 3px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.transition-arrow {
+    color: #A83D06;
+    font-size: 1.2rem;
+    animation: slideRight 2s infinite ease-in-out;
+}
+
+.wait-message {
+    font-style: italic;
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Efecto de glassmorphism para el modal */
+.language-change-modal .p-dialog .p-dialog-content {
+    backdrop-filter: blur(20px) !important;
+}
+
+/* Animación de entrada del modal */
+.language-change-modal .p-dialog {
+    animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Overlay con efecto blur */
+.language-change-modal .p-dialog-mask {
+    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.7) !important;
+    animation: overlayFadeIn 0.3s ease-out;
+}
+
+@keyframes overlayFadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .language-change-modal .p-dialog-content {
+        min-width: 300px !important;
+        padding: 1.5rem !important;
+    }
+    
+    .language-switch-animation {
+        gap: 1rem;
+    }
+    
+    .from-language, .to-language {
+        width: 40px;
+        height: 27px;
+    }
+    
+    .language-change-title {
+        font-size: 1.3rem;
+    }
+    
+    .language-transition-info {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

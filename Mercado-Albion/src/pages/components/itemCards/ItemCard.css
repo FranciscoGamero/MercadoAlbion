@@ -1,0 +1,103 @@
+/* Estilos personalizados para ItemCard */
+.item-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+}
+
+.item-card:hover {
+    transform: translateY(-4px) scale(1.02);
+}
+
+/* Estilo principal del Card */
+.item-card-main {
+    background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,248,240,0.9) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(168,61,6,0.2);
+}
+
+/* Efecto glassmorphism para las tarjetas */
+.item-card:hover {
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,248,240,0.95) 100%) !important;
+    box-shadow: 0 20px 40px rgba(168, 61, 6, 0.3) !important;
+}
+
+/* Header del card */
+.item-card-header {
+    border-color: rgba(168, 61, 6, 0.2);
+}
+
+/* Índice circular */
+.item-card-index {
+    background: linear-gradient(45deg, #A83D06, #D2691E);
+    width: 2rem;
+    height: 2rem;
+    min-width: 2rem;
+}
+
+/* Tag del ID */
+.item-card-id-tag {
+    background: rgba(168, 61, 6, 0.1) !important;
+    color: #A83D06 !important;
+    border: 1px solid rgba(168, 61, 6, 0.3) !important;
+}
+
+/* Sección de descripción */
+.item-card-description {
+    background: rgba(168, 61, 6, 0.05);
+    border: 1px solid rgba(168, 61, 6, 0.1);
+}
+
+.item-card-description-text {
+    font-size: 0.75rem;
+}
+
+/* Secciones de idiomas */
+.item-card-lang-en {
+    background: rgba(220, 53, 69, 0.1);
+}
+
+.item-card-lang-es {
+    background: rgba(255, 193, 7, 0.1);
+}
+
+/* Animaciones para los elementos internos */
+.item-card .p-tag {
+    transition: all 0.2s ease;
+}
+
+.item-card:hover .p-tag {
+    transform: scale(1.05);
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 768px) {
+    .item-card {
+        margin-bottom: 1rem;
+    }
+    
+    .item-card:hover {
+        transform: translateY(-2px) scale(1.01);
+    }
+    
+    .item-card .text-lg {
+        font-size: 1rem;
+    }
+}
+
+/* Efecto de brillo sutil */
+.item-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    transition: left 0.5s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.item-card:hover::before {
+    left: 100%;
+}
