@@ -1,6 +1,8 @@
 import { Card } from 'primereact/card';
 import './ItemCard.css';
 import { CONFIG } from '../../../config/constants';
+import { useNavigate } from 'react-router-dom';
+import { Img } from "react-image";
 
 interface Item {
     id: string;
@@ -20,6 +22,8 @@ interface ItemCardProps {
 }
 
 export function ItemCard({ item, index }: ItemCardProps) {
+    const navigate = useNavigate();
+
     // Obtener el idioma actual desde localStorage o usar 'ES-ES' por defecto
     const lang = (localStorage.getItem(CONFIG.LANG_KEY) || 'ES-ES').toLowerCase();
 
@@ -38,6 +42,7 @@ export function ItemCard({ item, index }: ItemCardProps) {
                 backdropFilter: 'blur(10px)',
                 border: '1px solid rgba(168,61,6,0.2)'
             }}
+            onClick={() => navigate(`/item/${item.id}`)}
         >
             <div className="p-4">
                 {/* Header con número y nombre */}
@@ -58,8 +63,14 @@ export function ItemCard({ item, index }: ItemCardProps) {
                             {displayName}
                         </div>
                     </div>
-                    <div className='align-items-end item-card-img'>
-                        <img className='item-card-img' src={`https://render.albiononline.com/v1/item/${item.id}.png`} alt={`${displayName} item`} />
+                    <div className='align-items-end'>
+                        <Img
+                            className="item-card-img"
+                            src={[`https://render.albiononline.com/v1/item/${item.id}.png`, "/assets/placeholder.png"]}
+                            alt={`${displayName} item`}
+                            loader={<img src="/assets/loader.gif" alt="Cargando..." />}
+                            unloader={<img className='img-failed' src="src/assets/placeholder.png" alt="Imagen no disponible" />}
+                        />
                     </div>
                 </div>
 

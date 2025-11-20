@@ -34,11 +34,9 @@ export function useAlbionItems() {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                console.log('Iniciando carga de datos...');
                 const mappedItems = typedLocalItems
                     .map(i => {
                         if (!i.UniqueName || !i.LocalizedNames || !i.LocalizedDescriptions) {
-                            console.warn('Elemento inválido detectado:', i);
                             return null;
                         }
                         
@@ -58,10 +56,8 @@ export function useAlbionItems() {
                     })
                     .filter((item): item is Item => item !== null); // Asegurar que el tipo sea Item
 
-                console.log('Datos mapeados correctamente:', mappedItems);
                 setItems(mappedItems);
             } catch (error) {
-                console.error('Error al cargar los datos:', error);
             } finally {
                 setLoading(false);
             }

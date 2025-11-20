@@ -31,11 +31,12 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
             const normalized = norm === 'es' ? 'ES-ES' : norm === 'en' ? 'EN-US' : existing;
             localStorage.setItem(CONFIG.LANG_KEY, normalized);
             return normalized;
+        } else {
+            const nav = (navigator.language || '').toLowerCase();
+            const detected = nav.startsWith('es') ? 'ES-ES' : 'EN-US';
+            localStorage.setItem(CONFIG.LANG_KEY, detected);
+                return detected;
         }
-        const nav = (navigator.language || '').toLowerCase();
-        const detected = nav.startsWith('es') ? 'ES-ES' : 'EN-US';
-        localStorage.setItem(CONFIG.LANG_KEY, detected);
-        return detected;
     });
 
     const languageOptions: Array<{ label: string; value: string; code: 'ES' | 'US' }> = [
@@ -114,9 +115,9 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
             <div className="flex justify-content-between align-items-center w-full p-3 custom-header">
                 {/* Logo */}
                 <div className="flex align-items-center">
-                    <img 
-                        src="https://cdn2.steamgriddb.com/logo_thumb/a028123bdd01ea9ff8dc3c780e9c0cd8.png" 
-                        alt="Albion Online Logo" 
+                    <img
+                        src="https://cdn2.steamgriddb.com/logo_thumb/a028123bdd01ea9ff8dc3c780e9c0cd8.png"
+                        alt="Albion Online Logo"
                         className="h-3rem"
                     />
                 </div>
@@ -125,13 +126,12 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
                     {menuItems.map((item, index) => {
                         const categoryKey = ['weapons', 'armor', 'resources', 'food'][index];
                         const isActive = activeCategory === categoryKey;
-                        
+
                         return (
-                            <button 
+                            <button
                                 key={index}
-                                className={`menu-item flex align-items-center gap-2 p-3 border-none cursor-pointer ${
-                                    isActive ? 'active-category' : 'bg-transparent'
-                                }`}
+                                className={`menu-item flex align-items-center gap-2 p-3 border-none cursor-pointer ${isActive ? 'active-category' : 'bg-transparent'
+                                    }`}
                                 onClick={item.onClick}
                                 style={isActive ? {
                                     background: 'linear-gradient(135deg, #A83D06 0%, #D2691E 100%)',
@@ -166,7 +166,7 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
                         className="w-12rem hidden sm:inline-flex"
                     />
                     <IconField iconPosition="left" className="w-full sm:w-20rem">
-                        <InputText 
+                        <InputText
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Buscar items..."

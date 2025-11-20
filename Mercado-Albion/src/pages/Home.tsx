@@ -41,50 +41,46 @@ export function Home() {
                 const id = item.id.toLowerCase();
                 const name = (language === 'ES-ES' ? item.titleES : item.titleEN) || '';
                 const descVar = item.descriptionVariable?.toLowerCase() || '';
-                
+
                 switch (categoryFilter) {
                     case 'weapons':
                         const weaponPatterns = ['sword', 'bow', 'axe', 'hammer', 'dagger', 'spear', 'staff', 'crossbow', 'mace', 'torch', 'shield'];
-                        const weaponSpanish = ['espada', 'arco', 'hacha', 'martillo', 'daga', 'lanza', 'bastón', 'ballesta', 'maza', 'antorcha','escudo'];
-                        
-                        return weaponPatterns.some(weapon => 
-                            id.includes(weapon) || 
-                            name.toLowerCase().includes(` ${weapon}`) || 
+                        const weaponSpanish = ['espada', 'arco', 'hacha', 'martillo', 'daga', 'lanza', 'bastón', 'ballesta', 'maza', 'antorcha', 'escudo'];
+
+                        return weaponPatterns.some(weapon =>
+                            id.includes(weapon) ||
+                            name.toLowerCase().includes(` ${weapon}`) ||
                             name.toLowerCase().endsWith(weapon) ||
                             name.toLowerCase().startsWith(weapon)
                         ) || weaponSpanish.some(weapon => name.toLowerCase().includes(weapon));
-                        
+
                     case 'armor':
-                        const armorPatterns = ['helmet', 'armor', 'boots', 'cape', 'robe', 'cowl','sandals', 'hood', 'jacket', 'shoes'];
+                        const armorPatterns = ['helmet', 'armor', 'boots', 'cape', 'robe', 'cowl', 'sandals', 'hood', 'jacket', 'shoes'];
                         const armorSpanish = ['casco', 'armadura', 'botas', 'capa', 'túnica', 'hábito', 'túnica', 'sandalias', 'capucha', 'chaqueta', 'zapatos'];
-                        
-                        return armorPatterns.some(armor => 
-                            id.includes(armor) || 
-                            name.toLowerCase().includes(` ${armor}`) || 
+
+                        return armorPatterns.some(armor =>
+                            id.includes(armor) ||
+                            name.toLowerCase().includes(` ${armor}`) ||
                             name.toLowerCase().endsWith(armor) ||
                             name.toLowerCase().startsWith(armor)
                         ) || armorSpanish.some(armor => name.toLowerCase().includes(armor));
-                        
+
                     case 'resources':
                         return descVar.includes('@items_ore_desc') ||
-                               descVar.includes('@items_wood_desc') ||
-                               descVar.includes('@items_stone_desc') ||
-                               descVar.includes('@items_fiber_desc') ||
-                               descVar.includes('@items_hide_desc') ||
-                               descVar.includes('@items_leather_desc') ||
-                               descVar.includes('@items_cloth_desc') ||
-                               descVar.includes('@items_metalbar_desc') ||
-                               descVar.includes('@items_planks_desc') ||
-                               descVar.includes('@items_stoneblock_desc') ||
-                               descVar.includes('@items_essence_desc');
-                        
+                            descVar.includes('@items_wood_desc') ||
+                            descVar.includes('@items_stone_desc') ||
+                            descVar.includes('@items_fiber_desc') ||
+                            descVar.includes('@items_hide_desc') ||
+                            descVar.includes('@items_leather_desc') ||
+                            descVar.includes('@items_cloth_desc') ||
+                            descVar.includes('@items_metalbar_desc') ||
+                            descVar.includes('@items_planks_desc') ||
+                            descVar.includes('@items_stoneblock_desc') ||
+                            descVar.includes('@items_essence_desc');
+
                     case 'food':
-                        return descVar.includes('@items_consumable_desc') ||
-                               descVar.includes('@items_meal_desc') ||
-                               descVar.includes('@items_fish_desc') ||
-                               descVar.includes('MEAL_') ||
-                               descVar.includes('FISH_');
-                        
+                        const foodPatterns = ['MEAL_SOUP', 'MEAL_PIE', 'MEAL_STEW', 'MEAL_SANDWICH', 'MEAL_SEAWEEDSALAD', 'MEAL_SALAD', 'MEAL_OMELETTE', 'BREAD', 'FISH_FRESHWATER', 'MEAT'];
+                        return foodPatterns.some(pattern => id.toLowerCase().includes(pattern.toLowerCase()));
                     default:
                         return true;
                 }
@@ -93,7 +89,7 @@ export function Home() {
 
         // Aplicar filtro por tier solo si se especifica
         if (includeTierFilter && selectedTiers.length > 0) {
-            filtered = filtered.filter(item => 
+            filtered = filtered.filter(item =>
                 item.tier && selectedTiers.includes(item.tier)
             );
         }
@@ -118,12 +114,12 @@ export function Home() {
     // Obtener tiers disponibles de los items filtrados (sin filtro de tier)
     const availableTiers = useMemo(() => {
         const baseFiltered = applyFilters(items, false);
-        
+
         const tiers = [...new Set(baseFiltered
             .map(item => item.tier)
             .filter(tier => tier !== undefined)
         )] as string[];
-        
+
         return tiers;
     }, [items, applyFilters]);
 
@@ -162,7 +158,7 @@ export function Home() {
     };
 
     if (selectedItem) {
-        return <ItemDetails item={selectedItem} onClose={() => setSelectedItem(null)} />;
+        return <ItemDetails />;
     }
 
     if (loading) {
@@ -210,7 +206,7 @@ export function Home() {
                 </Card>
 
                 <div className="grid">
-                        {/* Filtro lateral */}
+                    {/* Filtro lateral */}
                     <div className="col-12 lg:col-3 xl:col-2">
                         <Filter
                             availableTiers={availableTiers}
