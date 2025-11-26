@@ -167,23 +167,13 @@ export function Home() {
                 <Card className="text-center p-6 shadow-4 border-round-xl" style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)' }}>
                     <div className="flex flex-column align-items-center gap-3">
                         <i className="pi pi-spin pi-spinner" style={{ fontSize: '3rem', color: '#A83D06' }}></i>
-                        <h2 className="mt-0 mb-2" style={{ color: '#A83D06' }}>⚔️ Cargando items de Albion Online...</h2>
+                        <h2 className="mt-0 mb-2" style={{ color: '#A83D06' }}>⚔️ Cargando items...</h2>
                         <p className="text-600 mb-0">Preparando el mercado para ti</p>
                     </div>
                 </Card>
             </div>
         );
     }
-
-    const getCategoryName = (category: string) => {
-        const categoryMap: Record<string, string> = {
-            'weapons': '🗡️ Armas 🗡️',
-            'armor': '🛡️ Armaduras 🛡️',
-            'resources': '⛏️ Recursos ⛏️',
-            'food': '🍖 Comida 🍖'
-        };
-        return categoryMap[category] || 'Categoría desconocida';
-    };
 
     return (
         <>
@@ -194,17 +184,6 @@ export function Home() {
                 onLanguageChange={(lang) => setLanguage(lang)}
             />
             <div className="p-4 min-h-screen" style={{ background: 'linear-gradient(135deg, #A83D06 0%, #D2691E 100%)' }}>
-                <Card className="mb-4 p-4 shadow-4 border-round-xl" style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)' }}>
-                    <h1 className="text-3xl font-bold mt-0 mb-3" style={{ background: 'linear-gradient(45deg, #A83D06, #D2691E)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                        {debouncedSearchQuery ? `🔍 Resultados de búsqueda: "${debouncedSearchQuery}"` :
-                            categoryFilter ? `${getCategoryName(categoryFilter)}` :
-                                `🗡️ Items de Albion Online`}
-                    </h1>
-                    <div className="text-lg">
-                        📊 Total de items: {items.length}
-                    </div>
-                </Card>
-
                 <div className="grid">
                     {/* Filtro lateral */}
                     <div className="col-12 lg:col-3 xl:col-2">
