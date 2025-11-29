@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Card } from 'primereact/card';
 import { useAlbionItems } from '../hooks/useAlbionItems';
 import type { Item } from '../hooks/useAlbionItems';
@@ -7,10 +7,25 @@ import { Header } from './components/header/Header';
 import { Filter } from './components/filter/Filter';
 import { ItemCard } from './components/itemCards/ItemCard';
 import { ItemDetails } from './components/itemDetails/ItemDetails';
+import { useTranslation } from 'react-i18next';
 
 export function Home() {
+    const { t, i18n } = useTranslation(); // Initialize translation hook
     const { items, loading } = useAlbionItems();
-    const [language, setLanguage] = useState<string>(() => (localStorage.getItem('albion_language') || 'ES-ES'));
+    
+    // Sincronizar idioma de i18next con el idioma para mostrar items
+    const [language, setLanguage] = useState<string>(() => {
+        const i18nLang = i18n.language || 'es';
+        return i18nLang === 'es' ? 'ES-ES' : 'EN-US';
+    });
+
+    // Sincronizar cuando cambie el idioma en i18next
+    useEffect(() => {
+        const i18nLang = i18n.language || 'es';
+        const newLang = i18nLang === 'es' ? 'ES-ES' : 'EN-US';
+        setLanguage(newLang);
+    }, [i18n.language]);
+
     const [searchQuery, setSearchQuery] = useState('');
     const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
     const [selectedTiers, setSelectedTiers] = useState<string[]>([]);
@@ -167,8 +182,8 @@ export function Home() {
                 <Card className="text-center p-6 shadow-4 border-round-xl" style={{ background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(10px)' }}>
                     <div className="flex flex-column align-items-center gap-3">
                         <i className="pi pi-spin pi-spinner" style={{ fontSize: '3rem', color: '#A83D06' }}></i>
-                        <h2 className="mt-0 mb-2" style={{ color: '#A83D06' }}>⚔️ Cargando items...</h2>
-                        <p className="text-600 mb-0">Preparando el mercado para ti</p>
+                        <h2 className="mt-0 mb-2" style={{ color: '#A83D06' }}>⚔️ {t('loading_items')}</h2>
+                        <p className="text-600 mb-0">{t('preparing_market')}</p>
                     </div>
                 </Card>
             </div>
@@ -220,7 +235,7 @@ export function Home() {
                         style={{ opacity: currentPage === 1 ? 0.5 : 1 }}
                     >
                         <span className="p-button-icon pi pi-chevron-left"></span>
-                        <span className="p-button-label">Página anterior</span>
+                        <span className="p-button-label">{t('previous_page')}</span>
                     </button>
                     <button
                         onClick={handleNextPage}
@@ -228,7 +243,7 @@ export function Home() {
                         className="p-button p-component"
                         style={{ opacity: currentPage === totalPages ? 0.5 : 1 }}
                     >
-                        <span className="p-button-label">Siguiente página</span>
+                        <span className="p-button-label">{t('next_page')}</span>
                         <span className="p-button-icon pi pi-chevron-right"></span>
                     </button>
                 </div>
@@ -236,19 +251,16 @@ export function Home() {
                 <Card className="mt-4 shadow-3 border-round-lg" style={{ background: 'rgba(255, 255, 255, 0.9)' }}>
                     <div className="text-center p-4">
                         <div className="text-lg font-medium text-900">
-                            📊 Mostrando {paginatedItems.length} items
+                            📊 {t('showing_items', { count: paginatedItems.length })}
                             {(debouncedSearchQuery || categoryFilter) ? (
                                 <span className="text-primary">
-                                    {' '}(filtrados de {items.length} totales)
+                                    {' '}{t('filtered_from_total', { total: items.length })}
                                 </span>
                             ) : (
                                 <span className="text-600">
-                                    {' '}de {filteredItems.length} totales
+                                    {' '}{t('of_total', { total: filteredItems.length })}
                                 </span>
                             )}
-                        </div>
-                        <div className="text-600 text-sm mt-2">
-                            Solo en español • Diseño completo con numeración • Máximo 30 items por página
                         </div>
                     </div>
                 </Card>
@@ -256,5 +268,5 @@ export function Home() {
 
             </div>
         </>
-    ); // Cierre correcto del componente Home
+    );
 }

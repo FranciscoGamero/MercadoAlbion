@@ -4,6 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { IconField } from 'primereact/iconfield';
 import { Dropdown } from 'primereact/dropdown';
+import { useTranslation } from 'react-i18next';
 import './Header.css';
 import { ES as FlagES, US as FlagUS } from 'country-flag-icons/react/3x2';
 import { CONFIG } from '../../../config/constants';
@@ -22,21 +23,13 @@ interface HeaderProps {
 }
 
 export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguageChange }: HeaderProps = {}) {
+    const { t, i18n } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
+    
+    // Sincronizar con i18next language
     const [language, setLanguage] = useState<string>(() => {
-        const existing = localStorage.getItem(CONFIG.LANG_KEY);
-        if (existing) {
-            // Normalizar valores tipo 'es'/'en' a 'ES-ES'/'EN-US'
-            const norm = existing.toLowerCase();
-            const normalized = norm === 'es' ? 'ES-ES' : norm === 'en' ? 'EN-US' : existing;
-            localStorage.setItem(CONFIG.LANG_KEY, normalized);
-            return normalized;
-        } else {
-            const nav = (navigator.language || '').toLowerCase();
-            const detected = nav.startsWith('es') ? 'ES-ES' : 'EN-US';
-            localStorage.setItem(CONFIG.LANG_KEY, detected);
-                return detected;
-        }
+        const i18nLang = i18n.language || 'es';
+        return i18nLang === 'es' ? 'ES-ES' : 'EN-US';
     });
 
     const languageOptions: Array<{ label: string; value: string; code: 'ES' | 'US' }> = [
@@ -46,6 +39,10 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
 
     const handleLanguageChange = (value: string) => {
         setLanguage(value);
+        // Cambiar idioma en i18next (usar 'es' o 'en')
+        const i18nLang = value === 'ES-ES' ? 'es' : 'en';
+        i18n.changeLanguage(i18nLang);
+        // Mantener compatibilidad con el sistema anterior
         localStorage.setItem(CONFIG.LANG_KEY, value);
         onLanguageChange?.(value);
     };
@@ -75,28 +72,28 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
 
     const menuItems: MenuItemType[] = [
         {
-            label: 'Armas',
+            label: t('weapons'),
             icon: <img src="/sword-svgrepo-com.svg" alt="Sword" className="w-1rem h-1rem" />,
             onClick: () => {
                 onFilterByCategory?.('weapons');
             }
         },
         {
-            label: 'Armaduras',
+            label: t('armor'),
             icon: 'bi bi-shield-fill',
             onClick: () => {
                 onFilterByCategory?.('armor');
             }
         },
         {
-            label: 'Recursos',
+            label: t('resources'),
             icon: 'bi bi-gem',
             onClick: () => {
                 onFilterByCategory?.('resources');
             }
         },
         {
-            label: 'Comida',
+            label: t('food'),
             icon: 'bi bi-cup-hot-fill',
             onClick: () => {
                 onFilterByCategory?.('food');
@@ -162,14 +159,14 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
                         itemTemplate={itemTemplate}
                         valueTemplate={valueTemplate}
                         onChange={(e) => handleLanguageChange(e.value)}
-                        placeholder="Idioma"
+                        placeholder={t('language')}
                         className="w-12rem hidden sm:inline-flex"
                     />
                     <IconField iconPosition="left" className="w-full sm:w-20rem">
                         <InputText
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder="Buscar items..."
+                            placeholder={t('search_placeholder')}
                             className="w-full"
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
@@ -185,7 +182,7 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
                         outlined
                         size="small"
                         className="hidden sm:inline-flex"
-                        tooltip="Buscar"
+                        tooltip={t('search')}
                         tooltipOptions={{ position: 'bottom' }}
                     />
                 </div>

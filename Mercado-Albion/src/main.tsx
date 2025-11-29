@@ -12,6 +12,8 @@ import 'primeflex/primeflex.css';
 // Bootstrap Icons
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
+import './i18n'; // Import i18next configuration
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />

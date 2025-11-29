@@ -3,6 +3,7 @@ import './ItemCard.css';
 import { CONFIG } from '../../../config/constants';
 import { useNavigate } from 'react-router-dom';
 import { Img } from "react-image";
+import { useTranslation } from 'react-i18next';
 
 interface Item {
     id: string;
@@ -23,6 +24,7 @@ interface ItemCardProps {
 
 export function ItemCard({ item, index }: ItemCardProps) {
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     // Obtener el idioma actual desde localStorage o usar 'ES-ES' por defecto
     const lang = (localStorage.getItem(CONFIG.LANG_KEY) || 'ES-ES').toLowerCase();
@@ -77,7 +79,7 @@ export function ItemCard({ item, index }: ItemCardProps) {
                 {/* Descripción */}
                 {Boolean(displayDescription) && (
                     <div className="mb-3 p-3 border-round-lg" style={{ background: 'rgba(168, 61, 6, 0.05)', border: '1px solid rgba(168, 61, 6, 0.1)' }}>
-                        <div className="text-xs text-600 mb-1 uppercase font-bold">Descripción</div>
+                        <div className="text-xs text-600 mb-1 uppercase font-bold">{t('description')}</div>
                         <div className="text-sm text-700 font-mono" style={{ fontSize: '0.75rem' }}>
                             {displayDescription}
                         </div>
@@ -88,14 +90,14 @@ export function ItemCard({ item, index }: ItemCardProps) {
                 {item.tier && (
                     <div className="text-center mt-2">
                         <span className="text-sm font-bold" style={{ color: '#A83D06' }}>
-                            Tier {item.tier.replace('T', '')}
+                            {t('tier')} {item.tier.replace('T', '')}
                         </span>
                     </div>
                 )}
                 {!item.tier && (
                     <div className="text-center mt-2">
                         <span className="text-sm font-bold" style={{ color: '#A83D06' }}>
-                            No hay Tier disponible
+                            {t('no_tier_available')}
                         </span>
                     </div>
                 )}

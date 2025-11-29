@@ -1,5 +1,6 @@
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
+import { useTranslation } from 'react-i18next';
 
 interface NoItemsMessageProps {
     searchQuery: string;
@@ -8,6 +9,8 @@ interface NoItemsMessageProps {
 }
 
 export function NoItemsMessage({ searchQuery, categoryFilter, onClearFilters }: NoItemsMessageProps) {
+    const { t } = useTranslation();
+    
     return (
         <Card 
             className="border-round-xl shadow-4"
@@ -31,21 +34,21 @@ export function NoItemsMessage({ searchQuery, categoryFilter, onClearFilters }: 
                 </div>
                 <div className="text-xl font-semibold mb-2" style={{ color: '#A83D06' }}>
                     {searchQuery || categoryFilter ? 
-                        'No se encontraron items' : 
-                        'No hay items disponibles'
+                        t('no_items_found') : 
+                        t('no_items_available')
                     }
                 </div>
                 <div className="text-600 mb-4 line-height-3">
                     {searchQuery ? 
-                        'Intenta con otros términos de búsqueda o utiliza las categorías del menú' : 
+                        t('try_other_terms') : 
                         categoryFilter ?
-                        'Intenta con otra categoría o realiza una búsqueda específica' :
-                        'Los items se están cargando... Por favor espera un momento'
+                        t('try_other_category') :
+                        t('items_loading')
                     }
                 </div>
                 {(searchQuery || categoryFilter) && (
                     <Button
-                        label="Limpiar filtros"
+                        label={t('clear_filters')}
                         icon="pi pi-times"
                         className="mt-3"
                         style={{

@@ -2,6 +2,7 @@ import { Card } from 'primereact/card';
 import { MultiSelect } from 'primereact/multiselect';
 import { FloatLabel } from 'primereact/floatlabel';
 import { Divider } from 'primereact/divider';
+import { useTranslation } from 'react-i18next';
 import './Filter.css';
 interface FilterProps {
     availableTiers: string[];
@@ -18,6 +19,8 @@ export function Filter({
     totalItems,
     filteredItems
 }: FilterProps) {
+    const { t } = useTranslation();
+    
     // Convertir tiers a opciones para MultiSelect ordenados del 1 al 8
     const tierOptions = availableTiers
         .sort((a, b) => {
@@ -46,14 +49,14 @@ export function Filter({
                     {/* Título */}
                     <div className="flex align-items-center gap-2 mb-4">
                         <i className="pi pi-filter text-xl" style={{ color: '#A83D06' }}></i>
-                        <h3 className="m-0 text-lg font-bold" style={{ color: '#A83D06' }}>Filtros</h3>
+                        <h3 className="m-0 text-lg font-bold" style={{ color: '#A83D06' }}>{t('filters')}</h3>
                     </div>
 
                     {/* Estadísticas */}
                     <div className="mb-4 p-3 border-round-lg" style={{ background: 'rgba(168,61,6,0.1)' }}>
-                        <div className="text-sm text-600 mb-1">Resultados</div>
+                        <div className="text-sm text-600 mb-1">{t('results')}</div>
                         <div className="text-lg font-bold" style={{ color: '#A83D06' }}>
-                            {filteredItems} de {totalItems}
+                            {filteredItems} {t('of')} {totalItems}
                         </div>
                     </div>
 
@@ -78,17 +81,17 @@ export function Filter({
                                 selectAll={selectAll}
                                 maxSelectedLabels={3}
                                 className="w-full"
-                                placeholder="Filtrar por Tier"
+                                placeholder={t('tier')}
                                 showSelectAll={true}
                             />
-                            <label htmlFor="ms-tiers">Tier</label>
+                            <label htmlFor="ms-tiers">{t('tier')}</label>
                         </FloatLabel>
                     </div>
 
                     {availableTiers.length === 0 && (
                         <div className="text-center text-600 p-4">
                             <i className="pi pi-info-circle text-2xl mb-2"></i>
-                            <div>Selecciona una categoría para ver los filtros disponibles</div>
+                            <div>{t('select_category')}</div>
                         </div>
                     )}
                 </div>

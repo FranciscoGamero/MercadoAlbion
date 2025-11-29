@@ -2,8 +2,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAlbionItems } from "../../../hooks/useAlbionItems";
 import "./ItemDetails.css";
 import ItemChart from "./components/ItemChart";
+import { useTranslation } from "react-i18next";
 
 export function ItemDetails() {
+  const { t } = useTranslation(); // Initialize translation hook
   const { id } = useParams<{ id: string }>(); // Obtener el id desde los parámetros de la URL
   const navigate = useNavigate();
   const { items } = useAlbionItems();
@@ -44,11 +46,11 @@ export function ItemDetails() {
       <div className="item-details-container">
         <div className="item-details-header">
           <button className="back-button" onClick={() => navigate(-1)}>
-            ← Volver
+            ← {t("back")}
           </button>
         </div>
         <div className="item-details-content">
-          <h1>Item no encontrado</h1>
+          <h1>{t("item_not_found")}</h1>
         </div>
       </div>
     );
@@ -58,7 +60,7 @@ export function ItemDetails() {
     <div className="item-details-container">
       <div className="item-details-header">
         <button className="back-button" onClick={() => navigate(-1)}>
-          ← Volver
+          ← {t("back")}
         </button>
         <h1 className="item-title">{item.titleES || item.titleEN}</h1>
       </div>
@@ -83,7 +85,7 @@ export function ItemDetails() {
                   const parent = e.currentTarget.parentElement;
                   if (parent) {
                     const noImageDiv = document.createElement("div");
-                    noImageDiv.textContent = `Not Found`;
+                    noImageDiv.textContent = t("not_found");
                     noImageDiv.style.textAlign = "center";
                     noImageDiv.style.color = "#A83D06";
                     noImageDiv.style.backgroundColor = "#fcfbfbff";
@@ -105,15 +107,15 @@ export function ItemDetails() {
               />
               <div className="item-info-text" style={{ flex: 1 }}>
                 <p>
-                  <strong>Descripción:</strong>{" "}
+                  <strong>{t("description")}:</strong>{" "}
                   {item.descriptionES || item.descriptionEN}
                 </p>
                 <p>
                   {item.tier
-                    ? `Tier ${item.tier
+                    ? `${t("tier")} ${item.tier
                         .replace("T", "")
                         .replace("_LEVEL", ".")}`
-                    : "No disponible"}
+                    : t("not_available")}
                 </p>
               </div>
             </div>
