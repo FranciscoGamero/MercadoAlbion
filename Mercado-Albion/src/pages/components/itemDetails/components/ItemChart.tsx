@@ -97,14 +97,14 @@ const ItemChart: React.FC<ItemChartProps> = ({ itemId }) => {
   ];
 
   const locationColors: Record<string, string> = {
-    "Bridgewatch": "#FFD700",
-    "Martlock": "#87CEEB",
-    "Thetford": "#8A2BE2",
-    "Fort Sterling": "#A9A9A9",
-    "Lymhurst": "#32CD32",
-    "Caerleon": "#FF0000",
-    "Black Market": "#000000",
-    "Brecilien": "#FF69B4", 
+    "Bridgewatch": "#FFB84D",
+    "Martlock": "#5DADE2",
+    "Thetford": "#9B59B6",
+    "Fort Sterling": "#95A5A6",
+    "Lymhurst": "#52BE80",
+    "Caerleon": "#E74C3C",
+    "Black Market": "#34495E",
+    "Brecilien": "#EC7063", 
   };
 
   const chartData = {
@@ -113,28 +113,28 @@ const ItemChart: React.FC<ItemChartProps> = ({ itemId }) => {
       {
         label: `${t('average_price')} - ${selectedLocation}`,
         data: pricesAvg,
-        borderColor: locationColors[selectedLocation] || "#ffffffff",
+        borderColor: locationColors[selectedLocation] || "#5DADE2",
         backgroundColor: "rgba(0, 0, 0, 0)",
-        pointBackgroundColor: locationColors[selectedLocation] || "#ffffffff",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: locationColors[selectedLocation] || "#ffffffff",
+        pointBackgroundColor: locationColors[selectedLocation] || "#5DADE2",
+        pointBorderColor: "#34495E",
+        pointHoverBackgroundColor: "#ECF0F1",
+        pointHoverBorderColor: locationColors[selectedLocation] || "#5DADE2",
         tension: 0.4,
         yAxisID: 'y',
-        borderWidth: 2,
+        borderWidth: 3,
       },
       {
         label: `${t('quantity_sold')} - ${selectedLocation}`,
         data: itemCounts,
-        borderColor: "#FFD700",
-        backgroundColor: "rgba(255, 215, 0, 0.1)",
-        pointBackgroundColor: "#FFD700",
-        pointBorderColor: "#fff",
-        pointHoverBackgroundColor: "#fff",
-        pointHoverBorderColor: "#FFD700",
+        borderColor: "#7F8C8D",
+        backgroundColor: "rgba(127, 140, 141, 0.1)",
+        pointBackgroundColor: "#7F8C8D",
+        pointBorderColor: "#34495E",
+        pointHoverBackgroundColor: "#ECF0F1",
+        pointHoverBorderColor: "#7F8C8D",
         tension: 0.4,
         yAxisID: 'y1',
-        borderWidth: 2,
+        borderWidth: 3,
       },
     ],
   };
@@ -148,32 +148,45 @@ const ItemChart: React.FC<ItemChartProps> = ({ itemId }) => {
       legend: {
         position: "top" as const,
         labels: {
-          color: "#ffffff",
+          color: "#2C3E50",
+          font: {
+            size: 13,
+            weight: 'bold' as const,
+          },
+          padding: 15,
         },
       },
       title: {
         display: true,
         text: t('price_and_quantity_trends'),
-        color: "#ffffff",
+        color: "#2C3E50",
+        font: {
+          size: 16,
+          weight: 'bold' as const,
+        },
+        padding: {
+          top: 10,
+          bottom: 20,
+        },
       },
       tooltip: {
         mode: 'index' as const,
         intersect: false,
         position: 'nearest' as const,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        backgroundColor: 'rgba(44, 62, 80, 0.95)',
         padding: 15,
-        titleColor: '#ffffff',
+        titleColor: '#ECF0F1',
         titleFont: {
           size: 14,
           weight: 'bold' as const,
         },
-        bodyColor: '#ffffff',
+        bodyColor: '#ECF0F1',
         bodyFont: {
           size: 13,
         },
         bodySpacing: 8,
-        borderColor: 'rgba(255, 255, 255, 0.3)',
-        borderWidth: 1,
+        borderColor: '#95A5A6',
+        borderWidth: 2,
         displayColors: true,
         boxWidth: 15,
         boxHeight: 15,
@@ -197,10 +210,14 @@ const ItemChart: React.FC<ItemChartProps> = ({ itemId }) => {
     scales: {
       x: {
         ticks: {
-          color: "#ffffff",
+          color: "#34495E",
+          font: {
+            size: 11,
+          },
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.2)",
+          color: "rgba(149, 165, 166, 0.3)",
+          borderColor: "#7F8C8D",
         },
       },
       y: {
@@ -210,13 +227,21 @@ const ItemChart: React.FC<ItemChartProps> = ({ itemId }) => {
         title: {
           display: true,
           text: t('average_price'),
-          color: "#ffffff",
+          color: "#2C3E50",
+          font: {
+            size: 13,
+            weight: 'bold' as const,
+          },
         },
         ticks: {
-          color: "#ffffff",
+          color: "#34495E",
+          font: {
+            size: 11,
+          },
         },
         grid: {
-          color: "rgba(255, 255, 255, 0.2)",
+          color: "rgba(149, 165, 166, 0.3)",
+          borderColor: "#7F8C8D",
         },
       },
       y1: {
@@ -226,10 +251,17 @@ const ItemChart: React.FC<ItemChartProps> = ({ itemId }) => {
         title: {
           display: true,
           text: t('quantity_sold'),
-          color: "#FFD700",
+          color: "#7F8C8D",
+          font: {
+            size: 13,
+            weight: 'bold' as const,
+          },
         },
         ticks: {
-          color: "#FFD700",
+          color: "#7F8C8D",
+          font: {
+            size: 11,
+          },
         },
         grid: {
           drawOnChartArea: false,
