@@ -41,8 +41,8 @@ export function useAlbionItems() {
                         }
                         
                         // Extraer el tier del UniqueName si está presente
-                        const tierMatch = i.UniqueName.match(/T\d+/); // Busca patrones como "T4", "T5", etc.
-                        const tier = tierMatch ? tierMatch[0] : undefined;
+                        const tierMatch = i.UniqueName.match(/\bT[1-8](?:_|$|\b)/); // Busca patrones como "T4", "T5", etc. (solo del 1 al 8)
+                        const tier = tierMatch ? tierMatch[0].replace(/_/g, '') : undefined;
 
                         return {
                             id: i.UniqueName,

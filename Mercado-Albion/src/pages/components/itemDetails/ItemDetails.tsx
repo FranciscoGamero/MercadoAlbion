@@ -155,6 +155,8 @@ export function ItemDetails() {
                         navigate(`/item/${baseId}`);
                       }}
                       onError={(e) => {
+                        e.currentTarget.style.pointerEvents = 'none';
+                        e.currentTarget.style.cursor = 'not-allowed';
                         const parent = e.currentTarget.parentElement;
                         if (parent) {
                           const noImageDiv = document.createElement("div");
@@ -173,8 +175,10 @@ export function ItemDetails() {
                           noImageDiv.style.borderRadius = "8px";
                           noImageDiv.style.paddingLeft = "5px";
                           noImageDiv.style.paddingRight = "5px";
-                          noImageDiv.style.userSelect = "none"; // Prevent text selection
-                          parent.replaceChild(noImageDiv, e.currentTarget); // Replace image with styled div
+                          noImageDiv.style.userSelect = "none";
+                          noImageDiv.style.pointerEvents = "none";
+                          noImageDiv.style.cursor = "not-allowed";
+                          parent.replaceChild(noImageDiv, e.currentTarget);
                         }
                       }}
                     />
@@ -235,15 +239,17 @@ export function ItemDetails() {
                                 noImageDiv.style.borderRadius = "8px";
                                 noImageDiv.style.paddingLeft = "5px";
                                 noImageDiv.style.paddingRight = "5px";
-                                noImageDiv.style.userSelect = "none"; // Prevent text selection
-                                parent.replaceChild(noImageDiv, e.currentTarget); // Replace image with styled div
+                                noImageDiv.style.userSelect = "none";
+                                noImageDiv.style.pointerEvents = "none";
+                                noImageDiv.style.cursor = "not-allowed";
+                                parent.replaceChild(noImageDiv, e.currentTarget);
                               }
                             }}
                           />
                         </div>
                       );
                     }
-                    return null; // Skip rendering if no valid variant is found
+                    return null;
                   })}
                 </>
               ) : null}
@@ -272,15 +278,18 @@ export function ItemDetails() {
                       alt={`${item.titleES || item.titleEN} T${index + 1}`}
                       onClick={(e) => {
                         if (
+                          e.currentTarget.classList.contains('failed-image') ||
                           e.currentTarget.src.includes("placeholder.png") ||
                           e.currentTarget.tagName === "DIV"
                         ) {
                           e.preventDefault();
-                          return; // Prevent navigation for missing images or divs
+                          return;
                         }
                         navigate(`/item/${newId}`);
                       }}
                       onError={(e) => {
+                        e.currentTarget.style.pointerEvents = 'none';
+                        e.currentTarget.style.cursor = 'not-allowed';
                         const parent = e.currentTarget.parentElement;
                         if (parent) {
                           const noImageDiv = document.createElement("div");
@@ -299,8 +308,10 @@ export function ItemDetails() {
                           noImageDiv.style.borderRadius = "8px";
                           noImageDiv.style.paddingLeft = "5px";
                           noImageDiv.style.paddingRight = "5px";
-                          noImageDiv.style.userSelect = "none"; // Prevent text selection
-                          parent.replaceChild(noImageDiv, e.currentTarget); // Replace image with styled div
+                          noImageDiv.style.userSelect = "none";
+                          noImageDiv.style.pointerEvents = "none";
+                          noImageDiv.style.cursor = "not-allowed";
+                          parent.replaceChild(noImageDiv, e.currentTarget);
                         }
                       }}
                     />

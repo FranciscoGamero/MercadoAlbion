@@ -113,7 +113,7 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
                 {/* Logo */}
                 <div className="flex align-items-center">
                     <img
-                        src="https://cdn2.steamgriddb.com/logo_thumb/a028123bdd01ea9ff8dc3c780e9c0cd8.png"
+                        src="https://albiononline.com/build/images/logos/logo-ao-horizontal.5d48e4ef.svg"
                         alt="Albion Online Logo"
                         className="h-3rem"
                     />
