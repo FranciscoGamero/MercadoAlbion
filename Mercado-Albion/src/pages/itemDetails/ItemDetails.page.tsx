@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useAlbionItems } from "../../../hooks/useAlbionItems";
 import "./ItemDetails.css";
 import ItemChart from "./components/ItemChart";
 import { useTranslation } from "react-i18next";
+import { useAlbionItems } from "../../hooks/useAlbionItems";
 
 export function ItemDetails() {
   const { t } = useTranslation(); // Initialize translation hook
@@ -100,8 +100,8 @@ export function ItemDetails() {
                     noImageDiv.style.borderRadius = "8px";
                     noImageDiv.style.paddingLeft = "5px";
                     noImageDiv.style.paddingRight = "5px";
-                    noImageDiv.style.userSelect = "none"; // Prevent text selection
-                    parent.replaceChild(noImageDiv, e.currentTarget); // Replace image with styled div
+                    noImageDiv.style.userSelect = "none";
+                    parent.replaceChild(noImageDiv, e.currentTarget);
                   }
                 }}
               />
@@ -109,13 +109,6 @@ export function ItemDetails() {
                 <p>
                   <strong>{t("description")}:</strong>{" "}
                   {item.descriptionES || item.descriptionEN}
-                </p>
-                <p>
-                  {item.tier
-                    ? `${t("tier")} ${item.tier
-                        .replace("T", "")
-                        .replace("_LEVEL", ".")}`
-                    : t("not_available")}
                 </p>
               </div>
             </div>

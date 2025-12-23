@@ -7,7 +7,7 @@ import { Dropdown } from 'primereact/dropdown';
 import { useTranslation } from 'react-i18next';
 import './Header.css';
 import { ES as FlagES, US as FlagUS } from 'country-flag-icons/react/3x2';
-import { CONFIG } from '../../../config/constants';
+import { CONFIG } from '../../../../config/constants';
 
 interface MenuItemType {
     label: string;

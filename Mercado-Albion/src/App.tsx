@@ -2,8 +2,8 @@ import './App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
-import { Home } from './pages/Home';
-import { ItemDetails } from './pages/components/itemDetails/ItemDetails';
+import { ItemDetails } from './pages/itemDetails/ItemDetails.page';
+import { Home } from './pages/HomePage/Home.page';
 
 function App() {
   const { t, i18n } = useTranslation();

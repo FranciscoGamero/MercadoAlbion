@@ -1,17 +1,18 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import { Card } from 'primereact/card';
-import { useAlbionItems } from '../hooks/useAlbionItems';
-import type { Item } from '../hooks/useAlbionItems';
-import { useDebounce } from '../hooks/useDebounce';
+import { useAlbionItems } from '../../hooks/useAlbionItems';
+import type { Item } from '../../hooks/useAlbionItems';
+import { useDebounce } from '../../hooks/useDebounce';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Header } from './components/header/Header';
 import { Filter } from './components/filter/Filter';
 import { ItemCard } from './components/itemCards/ItemCard';
-import { ItemDetails } from './components/itemDetails/ItemDetails';
-import { useTranslation } from 'react-i18next';
 
 export function Home() {
     const { t, i18n } = useTranslation(); // Initialize translation hook
     const { items, loading } = useAlbionItems();
+    const navigate = useNavigate();
     
     // Sincronizar idioma de i18next con el idioma para mostrar items
     const [language, setLanguage] = useState<string>(() => {
@@ -31,7 +32,6 @@ export function Home() {
     const [selectedTiers, setSelectedTiers] = useState<string[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 30;
-    const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
     // Debounce la búsqueda para mejor rendimiento
     const debouncedSearchQuery = useDebounce(searchQuery, 300);
@@ -169,12 +169,8 @@ export function Home() {
     };
 
     const handleItemClick = (item: Item) => {
-        setSelectedItem(item);
+        navigate(`/item/${encodeURIComponent(item.id)}?lang=${language}`);
     };
-
-    if (selectedItem) {
-        return <ItemDetails />;
-    }
 
     if (loading) {
         return (

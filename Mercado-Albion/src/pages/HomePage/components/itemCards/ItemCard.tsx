@@ -1,9 +1,9 @@
 import { Card } from 'primereact/card';
 import './ItemCard.css';
-import { CONFIG } from '../../../config/constants';
 import { useNavigate } from 'react-router-dom';
 import { Img } from "react-image";
 import { useTranslation } from 'react-i18next';
+import { CONFIG } from '../../../../config/constants';
 
 interface Item {
     id: string;

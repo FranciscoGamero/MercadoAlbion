@@ -59,5 +59,6 @@
   "price": "Precio",
   "sold": "Vendidos",
   "silver": "plata",
-  "price_and_quantity_trends": "Tendencias de Precios y Cantidad Vendida"
+  "price_and_quantity_trends": "Tendencias de Precios y Cantidad Vendida",
+  "all-locations": "Todas las localizaciones"
 }
