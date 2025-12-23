@@ -452,6 +452,17 @@ const ItemChart: React.FC<ItemChartProps> = ({ itemId }) => {
           />
         </div>
       </div>
+      {selectedLocation === "all" && (
+        <div style={{ 
+          textAlign: 'center', 
+          fontSize: '15px', 
+          color: '#7F8C8D', 
+          fontStyle: 'italic',
+          marginBottom: '0.5rem'
+        }}>
+          {t('click_legend_filter')}
+        </div>
+      )}
       <Line data={chartData} options={options} />
     </div>
   );

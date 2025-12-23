@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import './Header.css';
 import { ES as FlagES, US as FlagUS } from 'country-flag-icons/react/3x2';
 import { CONFIG } from '../../../../config/constants';
+import { useNavigate } from 'react-router-dom';
 
 interface MenuItemType {
     label: string;
@@ -25,6 +26,7 @@ interface HeaderProps {
 export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguageChange }: HeaderProps = {}) {
     const { t, i18n } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
     
     // Sincronizar con i18next language
     const [language, setLanguage] = useState<string>(() => {
@@ -73,7 +75,7 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
     const menuItems: MenuItemType[] = [
         {
             label: t('weapons'),
-            icon: <img src="/sword-svgrepo-com.svg" alt="Sword" className="w-1rem h-1rem" />,
+            icon: <img src="/espada.svg" alt="Espada" className="w-1rem h-1rem" />,
             onClick: () => {
                 onFilterByCategory?.('weapons');
             }
@@ -98,6 +100,13 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
             onClick: () => {
                 onFilterByCategory?.('food');
             }
+        },
+        {
+            label: t('mounts'),
+            icon: <img src="/montura.svg" alt="Mount" className="w-1rem h-1rem" />,
+            onClick: () => {
+                onFilterByCategory?.('mounts');
+            }
         }
     ];
 
@@ -111,17 +120,24 @@ export function Header({ onSearch, onFilterByCategory, activeCategory, onLanguag
         <div className="surface-card shadow-2 w-full alturaHeader">
             <div className="flex justify-content-between align-items-center w-full p-3 custom-header">
                 {/* Logo */}
-                <div className="flex align-items-center">
+                <div className="flex align-items-center cursor-pointer ml-4">
                     <img
-                        src="https://albiononline.com/build/images/logos/logo-ao-horizontal.5d48e4ef.svg"
+                        src="AlbionLogo.png"
                         alt="Albion Online Logo"
-                        className="h-3rem"
+                        className="h-5rem"
+                        onClick={() => {
+                            if (window.location.pathname == '/home' || window.location.pathname == '/') {
+                                window.location.reload();
+                            } else {
+                                navigate('/home');
+                            }
+                        }}
                     />
                 </div>
 
                 <div className="flex align-items-center gap-3 menu-container">
                     {menuItems.map((item, index) => {
-                        const categoryKey = ['weapons', 'armor', 'resources', 'food'][index];
+                        const categoryKey = ['weapons', 'armor', 'resources', 'food', 'mounts'][index];
                         const isActive = activeCategory === categoryKey;
 
                         return (

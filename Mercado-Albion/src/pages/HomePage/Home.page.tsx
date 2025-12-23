@@ -78,7 +78,11 @@ export function Home() {
                             name.toLowerCase().includes(` ${armor}`) ||
                             name.toLowerCase().endsWith(armor) ||
                             name.toLowerCase().startsWith(armor)
-                        ) || armorSpanish.some(armor => name.toLowerCase().includes(armor));
+                        ) || armorSpanish.some(armor =>
+                            id.includes(armor) ||
+                            name.toLowerCase().includes(` ${armor}`) ||
+                            name.toLowerCase().endsWith(armor) ||
+                            name.toLowerCase().startsWith(armor));
 
                     case 'resources':
                         return descVar.includes('@items_ore_desc') ||
@@ -96,6 +100,8 @@ export function Home() {
                     case 'food':
                         const foodPatterns = ['MEAL_SOUP', 'MEAL_PIE', 'MEAL_STEW', 'MEAL_SANDWICH', 'MEAL_SEAWEEDSALAD', 'MEAL_SALAD', 'MEAL_OMELETTE', 'BREAD', 'FISH_FRESHWATER', 'MEAT'];
                         return foodPatterns.some(pattern => id.toLowerCase().includes(pattern.toLowerCase()));
+                    case 'mounts':
+                        return item.id.includes('UNIQUE_MOUNT');
                     default:
                         return true;
                 }

@@ -31,6 +31,7 @@
   "armor": "Armaduras",
   "resources": "Recursos",
   "food": "Comida",
+  "mounts": "Monturas",
   "search_placeholder": "Buscar items...",
   "search": "Buscar",
   "language": "Idioma",
@@ -60,5 +61,6 @@
   "sold": "Vendidos",
   "silver": "plata",
   "price_and_quantity_trends": "Tendencias de Precios y Cantidad Vendida",
-  "all-locations": "Todas las localizaciones"
+  "all-locations": "Todas las localizaciones",
+  "click_legend_filter": "Haz clic en los cuadrados de la leyenda para filtrar las ciudades"
 }
